@@ -1,6 +1,17 @@
 # DPLL-solver
-DPLL solver written in C++ with shell tests:
-
+DPLL solver written in C++ with shell tests
+  
+  
+**DPLL solver:**
+* run with argument: **./DPLL formula.cnf**
+* the argument is **DIMACS-format** file 
+* return values:
+  * **SATISFIABLE**
+  * **UNSATISFIABLE**
+  * **UNKNOWN** - if SIGINT (Ctrl+C) was sent
+  
+  
+**Shell tests:**
 * GENERATED tests: Random-k-SAT generating on [Tough SAT](https://toughsat.appspot.com/)
 
 * SATISFIABLE tests: Uniform Random-3-SAT from [SATLIB](http://cs.ubc.ca/~hoos/SATLIB/benchm.html)
