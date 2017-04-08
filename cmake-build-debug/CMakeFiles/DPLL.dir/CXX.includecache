@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/alex/Workspace/DPLL/main.cpp
+/home/alex/Workspace/DPLL/dpll.cpp
 iostream
 -
 vector
@@ -14,5 +14,7 @@ vector
 set
 -
 fstream
+-
+csignal
 -
 

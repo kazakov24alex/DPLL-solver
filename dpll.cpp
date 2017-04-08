@@ -2,9 +2,11 @@
 #include <vector>
 #include <set>
 #include <fstream>
+#include <csignal>
 
 
 using namespace std;
+
 
 // TODO: DEBUG
 string show_expr(const vector<vector<int>> &expr) {
@@ -28,12 +30,16 @@ string show_set(const set<int> &var_set) {
     return result += "}";
 }
 
+void sigint_handler(int s) {
+    cout << "UNKNOWN" << endl;
+    exit(s);
+}
+
 bool dimacs_parser(string filename, vector<vector<int>> &expr, unsigned int& var_num, unsigned int& clauses_num) {
     string lit;
     int var;
     string line;
 
-    //cout << "FILENAME=" << filename << endl;
     ifstream fs(filename);
     if (fs.is_open()) {
         while (fs.good()) {
@@ -270,6 +276,7 @@ bool DPLL(vector<vector<int>> expr, set<int> var_true, set<int> var_false, set<i
 
 
 int main(int argc, char** argv) {
+    signal(SIGINT, sigint_handler);
 
     unsigned int var_num = 0;
     unsigned int clauses_num = 0;

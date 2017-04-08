@@ -84,7 +84,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/alex/Workspace/DPLL/main.cpp">
+		<Unit filename="/home/alex/Workspace/DPLL/dpll.cpp">
 			<Option target="DPLL"/>
 		</Unit>
 		<Unit filename="/home/alex/Workspace/DPLL/CMakeLists.txt">

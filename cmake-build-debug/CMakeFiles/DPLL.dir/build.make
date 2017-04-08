@@ -57,38 +57,38 @@ include CMakeFiles/DPLL.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/DPLL.dir/flags.make
 
-CMakeFiles/DPLL.dir/main.cpp.o: CMakeFiles/DPLL.dir/flags.make
-CMakeFiles/DPLL.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/alex/Workspace/DPLL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/DPLL.dir/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DPLL.dir/main.cpp.o -c /home/alex/Workspace/DPLL/main.cpp
+CMakeFiles/DPLL.dir/dpll.cpp.o: CMakeFiles/DPLL.dir/flags.make
+CMakeFiles/DPLL.dir/dpll.cpp.o: ../dpll.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/alex/Workspace/DPLL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/DPLL.dir/dpll.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DPLL.dir/dpll.cpp.o -c /home/alex/Workspace/DPLL/dpll.cpp
 
-CMakeFiles/DPLL.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DPLL.dir/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/alex/Workspace/DPLL/main.cpp > CMakeFiles/DPLL.dir/main.cpp.i
+CMakeFiles/DPLL.dir/dpll.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DPLL.dir/dpll.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/alex/Workspace/DPLL/dpll.cpp > CMakeFiles/DPLL.dir/dpll.cpp.i
 
-CMakeFiles/DPLL.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DPLL.dir/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/alex/Workspace/DPLL/main.cpp -o CMakeFiles/DPLL.dir/main.cpp.s
+CMakeFiles/DPLL.dir/dpll.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DPLL.dir/dpll.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/alex/Workspace/DPLL/dpll.cpp -o CMakeFiles/DPLL.dir/dpll.cpp.s
 
-CMakeFiles/DPLL.dir/main.cpp.o.requires:
+CMakeFiles/DPLL.dir/dpll.cpp.o.requires:
 
-.PHONY : CMakeFiles/DPLL.dir/main.cpp.o.requires
+.PHONY : CMakeFiles/DPLL.dir/dpll.cpp.o.requires
 
-CMakeFiles/DPLL.dir/main.cpp.o.provides: CMakeFiles/DPLL.dir/main.cpp.o.requires
-	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/main.cpp.o.provides.build
-.PHONY : CMakeFiles/DPLL.dir/main.cpp.o.provides
+CMakeFiles/DPLL.dir/dpll.cpp.o.provides: CMakeFiles/DPLL.dir/dpll.cpp.o.requires
+	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/dpll.cpp.o.provides.build
+.PHONY : CMakeFiles/DPLL.dir/dpll.cpp.o.provides
 
-CMakeFiles/DPLL.dir/main.cpp.o.provides.build: CMakeFiles/DPLL.dir/main.cpp.o
+CMakeFiles/DPLL.dir/dpll.cpp.o.provides.build: CMakeFiles/DPLL.dir/dpll.cpp.o
 
 
 # Object files for target DPLL
 DPLL_OBJECTS = \
-"CMakeFiles/DPLL.dir/main.cpp.o"
+"CMakeFiles/DPLL.dir/dpll.cpp.o"
 
 # External object files for target DPLL
 DPLL_EXTERNAL_OBJECTS =
 
-DPLL: CMakeFiles/DPLL.dir/main.cpp.o
+DPLL: CMakeFiles/DPLL.dir/dpll.cpp.o
 DPLL: CMakeFiles/DPLL.dir/build.make
 DPLL: CMakeFiles/DPLL.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/alex/Workspace/DPLL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable DPLL"
@@ -99,7 +99,7 @@ CMakeFiles/DPLL.dir/build: DPLL
 
 .PHONY : CMakeFiles/DPLL.dir/build
 
-CMakeFiles/DPLL.dir/requires: CMakeFiles/DPLL.dir/main.cpp.o.requires
+CMakeFiles/DPLL.dir/requires: CMakeFiles/DPLL.dir/dpll.cpp.o.requires
 
 .PHONY : CMakeFiles/DPLL.dir/requires
 

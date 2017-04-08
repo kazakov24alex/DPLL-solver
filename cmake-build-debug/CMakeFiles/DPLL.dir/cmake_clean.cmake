@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/DPLL.dir/main.cpp.o"
+  "CMakeFiles/DPLL.dir/dpll.cpp.o"
   "DPLL.pdb"
   "DPLL"
 )

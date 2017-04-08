@@ -3,5 +3,5 @@ project(DPLL)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES dpll.cpp)
 add_executable(DPLL ${SOURCE_FILES})

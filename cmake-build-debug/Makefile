@@ -123,32 +123,32 @@ DPLL/fast:
 	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/build
 .PHONY : DPLL/fast
 
-main.o: main.cpp.o
+dpll.o: dpll.cpp.o
 
-.PHONY : main.o
+.PHONY : dpll.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/main.cpp.o
-.PHONY : main.cpp.o
+dpll.cpp.o:
+	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/dpll.cpp.o
+.PHONY : dpll.cpp.o
 
-main.i: main.cpp.i
+dpll.i: dpll.cpp.i
 
-.PHONY : main.i
+.PHONY : dpll.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/main.cpp.i
-.PHONY : main.cpp.i
+dpll.cpp.i:
+	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/dpll.cpp.i
+.PHONY : dpll.cpp.i
 
-main.s: main.cpp.s
+dpll.s: dpll.cpp.s
 
-.PHONY : main.s
+.PHONY : dpll.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/main.cpp.s
-.PHONY : main.cpp.s
+dpll.cpp.s:
+	$(MAKE) -f CMakeFiles/DPLL.dir/build.make CMakeFiles/DPLL.dir/dpll.cpp.s
+.PHONY : dpll.cpp.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... DPLL"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... dpll.o"
+	@echo "... dpll.i"
+	@echo "... dpll.s"
 .PHONY : help
 
 
