@@ -10,6 +10,10 @@ DPLL solver written in C++ with shell tests
   * **UNSATISFIABLE**
   * **UNKNOWN** - if SIGINT (Ctrl+C) was sent
   
+
+### Building
+To produce statically linked release configuration build run `./build_release.sh`
+
   
 ### Shell tests:
 * GENERATED tests: Random-k-SAT generating on [Tough SAT](https://toughsat.appspot.com/)
