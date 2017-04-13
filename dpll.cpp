@@ -97,7 +97,7 @@ int isPureLiteral(const vector<vector<int>> &expr, int literal) {
     return search;
 }
 
-vector<vector<int>> simplification(vector<vector<int>> expr, int lit) {
+vector<vector<int>>& simplification(vector<vector<int>> &expr, int lit) {
     vector<int> idx_clauses_to_delete;
 
     for (int clause_idx = 0; clause_idx < expr.size(); clause_idx++) {
@@ -164,7 +164,7 @@ bool unitPropagation(vector<vector<int>> &expr, set<int> &var_true, set<int> &va
         else
             var_false.insert(abs(unit));
 
-        expr = simplification(expr, unit);
+        simplification(expr, unit);
     }
 
 }
@@ -242,9 +242,9 @@ bool DPLL(vector<vector<int>> expr, set<int> var_true, set<int> var_false, set<i
             simplificationFlag = true;
         }
 
-        if (pureLiteralElimination(expr, var_true, var_false, var_unset)) {
+        /*if (pureLiteralElimination(expr, var_true, var_false, var_unset)) {
             simplificationFlag = true;
-        }
+        }*/
 
         if (!simplificationFlag) {
             break;
@@ -254,20 +254,20 @@ bool DPLL(vector<vector<int>> expr, set<int> var_true, set<int> var_false, set<i
 
     int lit = chooseLiteral(expr, var_unset);
     var_unset.erase(abs(lit));
-    vector<vector<int>> new_expr;
+    vector<vector<int>> new_expr(expr);
 
-    new_expr = simplification(expr, lit);
+    simplification(new_expr, lit);
     set<int> new_var_true = var_true;
     new_var_true.insert(lit);
     if (DPLL(new_expr, new_var_true, var_false, var_unset)) {
         return true;
     }
 
-
-    new_expr = simplification(expr, -lit);
+    vector<vector<int>> new_expr2(expr);
+    simplification(new_expr2, -lit);
     set<int> new_var_false = var_false;
     new_var_false.insert(lit);
-    if (DPLL(new_expr, var_true, new_var_false, var_unset)) {
+    if (DPLL(new_expr2, var_true, new_var_false, var_unset)) {
         return true;
     }
 
@@ -281,6 +281,7 @@ int main(int argc, char** argv) {
     unsigned int var_num = 0;
     unsigned int clauses_num = 0;
     vector<vector<int>> expression;
+    expression.reserve(clauses_num);
     set<int> var_true, var_false, var_unset;
 
     if(argc > 1) {

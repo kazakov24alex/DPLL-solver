@@ -1,1 +1,1 @@
-/usr/bin/c++   -g   CMakeFiles/DPLL.dir/dpll.cpp.o  -o DPLL 
+/usr/bin/c++   -g   -static CMakeFiles/DPLL.dir/dpll.cpp.o  -o DPLL -static-libgcc -static-libstdc++ 
