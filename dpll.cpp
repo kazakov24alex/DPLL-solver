@@ -3,17 +3,18 @@
 #include <set>
 #include <fstream>
 #include <csignal>
+#include <list>
 
 
 using namespace std;
 
 
 // TODO: DEBUG
-string show_expr(const vector<vector<int>> &expr) {
+string show_expr(const std::list<std::list<int>> expr) {
     string result;
-    for (vector<vector<int>>::const_iterator it_clauses = expr.begin(); it_clauses != expr.end(); ++it_clauses) {
+    for (auto it_clauses = expr.begin(); it_clauses != expr.end(); ++it_clauses) {
         result += "{";
-        for (vector<int>::const_iterator it_var = (*it_clauses).begin(); it_var != (*it_clauses).end(); ++it_var)
+        for (auto it_var = (*it_clauses).begin(); it_var != (*it_clauses).end(); ++it_var)
             result += (to_string)(*it_var) + ",";
         result += "\b}\n";
     }
@@ -35,7 +36,7 @@ void sigint_handler(int s) {
     exit(s);
 }
 
-bool dimacs_parser(string filename, vector<vector<int>> &expr, unsigned int& var_num, unsigned int& clauses_num) {
+bool dimacs_parser(string filename, std::list<std::list<int>> &expr, unsigned int& var_num, unsigned int& clauses_num) {
     string lit;
     int var;
     string line;
@@ -51,7 +52,7 @@ bool dimacs_parser(string filename, vector<vector<int>> &expr, unsigned int& var
             fs >> clauses_num;
 
             for(int i=0; i < clauses_num; i++) {
-                vector<int> clause;
+                std::list<int> clause;
                 while (1) {
                     fs >> var;
 
@@ -79,11 +80,11 @@ bool dimacs_parser(string filename, vector<vector<int>> &expr, unsigned int& var
 // Auxiliary functions
 //======================================================================================================================
 
-int isPureLiteral(const vector<vector<int>> &expr, int literal) {
+int isPureLiteral(const std::list<std::list<int>> &expr, int literal) {
     int search = 0;
-    for (int clause_idx = 0; clause_idx < expr.size(); clause_idx++) {
-        for (int var_idx = 0; var_idx < expr[clause_idx].size(); var_idx++) {
-            int var = expr[clause_idx][var_idx];
+    for (auto it_clauses = expr.begin(); it_clauses != expr.end(); ++it_clauses) {
+        for (auto it_var = (*it_clauses).begin(); it_var != (*it_clauses).end(); ++it_var) {
+            int var = (*it_var);
             if(literal == abs(var)) {
                 if(search == 0) {
                     search = var;
@@ -97,33 +98,22 @@ int isPureLiteral(const vector<vector<int>> &expr, int literal) {
     return search;
 }
 
-vector<vector<int>>& simplification(vector<vector<int>> &expr, int lit) {
-    vector<int> idx_clauses_to_delete;
-
-    for (int clause_idx = 0; clause_idx < expr.size(); clause_idx++) {
-        vector<int> idx_vars_to_delete;
-        for (int var_idx = 0; var_idx < expr[clause_idx].size(); var_idx++) {
-            if (abs(lit) == abs(expr[clause_idx][var_idx])) {
-                if (expr[clause_idx][var_idx] * lit > 0 ) {
-                    idx_clauses_to_delete.push_back(clause_idx);
+void simplification(std::list<std::list<int>> &expr, int lit) {
+    for (auto it_clauses = expr.begin(); it_clauses != expr.end(); ++it_clauses) {
+        for (auto it_var = (*it_clauses).begin(); it_var != (*it_clauses).end(); ++it_var) {
+            if (abs(lit) == abs(*it_var)) {
+                if ((*it_var) * lit > 0 ) {
+                    it_clauses = expr.erase(it_clauses);
+                    it_clauses--;
                     break;
                 } else {
-                    idx_vars_to_delete.push_back(var_idx);
+                    it_var = (*it_clauses).erase(it_var);
+                    it_var--;
                     break;
                 }
             }
         }
-
-        for (int i = 0; i < idx_vars_to_delete.size(); i++) {
-            expr[clause_idx].erase(expr[clause_idx-i].begin() + idx_vars_to_delete[i]);
-        }
     }
-
-    for (int i = 0; i < idx_clauses_to_delete.size(); i++) {
-        expr.erase(expr.begin() + idx_clauses_to_delete[i]-i);
-    }
-
-    return expr;
 }
 
 
@@ -132,24 +122,25 @@ vector<vector<int>>& simplification(vector<vector<int>> &expr, int lit) {
 // Algorithm functions
 //======================================================================================================================
 
-bool isEmptyClause(const vector<vector<int>> &expr) {
-    for(int i = 0; i<expr.size(); i++) {
-        if(expr[i].empty()) {
+bool isEmptyClause(const std::list<std::list<int>> &expr) {
+    for (auto it_clauses = expr.begin(); it_clauses != expr.end(); ++it_clauses) {
+        if((*it_clauses).empty()) {
             return true;
         }
     }
     return false;
 }
 
-bool unitPropagation(vector<vector<int>> &expr, set<int> &var_true, set<int> &var_false, set<int> &var_unset) {
+bool unitPropagation(std::list<std::list<int>> &expr, set<int> &var_true, set<int> &var_false, set<int> &var_unset) {
     bool flag = false;
 
     while(1) {
         int unit = 0;
-        vector<vector<int>>::iterator unit_it;
-        for (vector<vector<int>>::iterator it = expr.begin(); it != expr.end(); ++it) {
-            if ((*it).size() == 1) {
-                unit = (*it)[0];
+
+        for (auto it_clause = expr.begin(); it_clause != expr.end(); ++it_clause) {
+            if ((*it_clause).size() == 1) {
+                auto it_var = (*it_clause).begin();
+                unit = (*it_var);
             }
         }
 
@@ -169,7 +160,8 @@ bool unitPropagation(vector<vector<int>> &expr, set<int> &var_true, set<int> &va
 
 }
 
-bool pureLiteralElimination(vector<vector<int>> &expr, set<int> &var_true, set<int> &var_false, set<int> &var_unset) {
+
+bool pureLiteralElimination(std::list<std::list<int>> &expr, set<int> &var_true, set<int> &var_false, set<int> &var_unset) {
     bool flag = false;
 
     vector<int> pure_literals;
@@ -178,9 +170,9 @@ bool pureLiteralElimination(vector<vector<int>> &expr, set<int> &var_true, set<i
         int pure_lit = isPureLiteral(expr, *var_it);
         if(pure_lit != 0) {
             flag = true;
-            pure_literals.push_back(pure_lit);
+            var_unset.erase(abs(pure_lit));
 
-            expr = simplification(expr, pure_lit);
+            simplification(expr, pure_lit);
         }
     }
 
@@ -195,15 +187,16 @@ bool pureLiteralElimination(vector<vector<int>> &expr, set<int> &var_true, set<i
     return flag;
 }
 
-int chooseLiteral(const vector<vector<int>> &expr, set<int> var_unset) {
+
+int chooseLiteral(const std::list<std::list<int>> &expr, set<int> var_unset) {
     int var = 0;
     int max = 0;
 
-    for(set<int>::iterator var_it = var_unset.begin(); var_it != var_unset.end(); var_it++) {
+    for(set<int>::iterator set_var_it = var_unset.begin(); set_var_it != var_unset.end(); set_var_it++) {
         int num = 0;
-        for (int clause_idx = 0; clause_idx < expr.size(); clause_idx++) {
-            for (int var_idx = 0; var_idx < expr[clause_idx].size(); var_idx++) {
-                if(abs(expr[clause_idx][var_idx]) == *var_it) {
+        for (auto it_clauses = expr.begin(); it_clauses != expr.end(); ++it_clauses) {
+            for (auto it_var = (*it_clauses).begin(); it_var != (*it_clauses).end(); ++it_var) {
+                if(abs(*it_var) == *set_var_it) {
                     num++;
                 }
             }
@@ -211,7 +204,7 @@ int chooseLiteral(const vector<vector<int>> &expr, set<int> var_unset) {
 
         if(num > max) {
             max = num;
-            var = (*var_it);
+            var = (*set_var_it);
         }
     }
 
@@ -224,7 +217,7 @@ int chooseLiteral(const vector<vector<int>> &expr, set<int> var_unset) {
 // DPLL algorithm
 //======================================================================================================================
 
-bool DPLL(vector<vector<int>> expr, set<int> var_true, set<int> var_false, set<int> var_unset) {
+bool DPLL(std::list<std::list<int>> expr, set<int> var_true, set<int> var_false, set<int> var_unset) {
 
     while(1) {
 
@@ -242,9 +235,11 @@ bool DPLL(vector<vector<int>> expr, set<int> var_true, set<int> var_false, set<i
             simplificationFlag = true;
         }
 
-        /*if (pureLiteralElimination(expr, var_true, var_false, var_unset)) {
+        /*
+        if (pureLiteralElimination(expr, var_true, var_false, var_unset)) {
             simplificationFlag = true;
-        }*/
+        }
+        */
 
         if (!simplificationFlag) {
             break;
@@ -254,7 +249,7 @@ bool DPLL(vector<vector<int>> expr, set<int> var_true, set<int> var_false, set<i
 
     int lit = chooseLiteral(expr, var_unset);
     var_unset.erase(abs(lit));
-    vector<vector<int>> new_expr(expr);
+    std::list<std::list<int>> new_expr(expr);
 
     simplification(new_expr, lit);
     set<int> new_var_true = var_true;
@@ -263,7 +258,7 @@ bool DPLL(vector<vector<int>> expr, set<int> var_true, set<int> var_false, set<i
         return true;
     }
 
-    vector<vector<int>> new_expr2(expr);
+    std::list<std::list<int>> new_expr2(expr);
     simplification(new_expr2, -lit);
     set<int> new_var_false = var_false;
     new_var_false.insert(lit);
@@ -280,8 +275,7 @@ int main(int argc, char** argv) {
 
     unsigned int var_num = 0;
     unsigned int clauses_num = 0;
-    vector<vector<int>> expression;
-    expression.reserve(clauses_num);
+    std::list<std::list<int>> expression;
     set<int> var_true, var_false, var_unset;
 
     if(argc > 1) {
@@ -293,7 +287,7 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    for(int i = 1; i<=var_num; var_unset.insert(i++));
+    for(int i = 1; i<=var_num; var_unset.insert(i++)) {};
 
 
     if(DPLL(expression, var_true, var_false, var_unset)) {
@@ -302,7 +296,6 @@ int main(int argc, char** argv) {
         cout << "UNSATISFIABLE" << endl;
         return -1;
     };
-
 
     return 0;
 }
